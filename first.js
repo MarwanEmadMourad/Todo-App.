@@ -15,6 +15,19 @@ const todo = [{
     completed:1
 }]
 
-document.querySelector('button').addEventListener('click',(e)=>{
-    e.target.textContent = 'You Clicked Me !!'
+
+document.querySelector('#show').addEventListener('click',function(e){
+    const after_that = document.querySelector('#up') ;
+    for (let i = 0 ; i<todo.length ;i++){
+        let child = document.createElement('p')
+        child.textContent = todo[i].text ;
+        after_that.appendChild(child)
+    }
+})
+
+document.querySelector('#Dont-show').addEventListener('click',function(){
+    const all_todos = document.querySelectorAll('p')
+    all_todos.forEach(todo => {
+        todo.remove()
+    });
 })
