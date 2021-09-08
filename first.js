@@ -1,30 +1,34 @@
-const todos = []
-let text = ''
+const todos = ['Do Your bed.',
+'Solve on leetcode',
+'Complete your course',
+'Be productive',
+'Do your chores',
+'Complete your quraan part']
+
+let search_text = ''
 
 // taking the text input from the input field
-document.querySelector('#input-todo').addEventListener('input',function(e){
-    text = e.target.value 
+document.querySelector('#search-todo').addEventListener('input',function(e){
+    search_text = e.target.value 
+    render_todos(todos,search_text)
 })
 
-// appending the input text to our todos list
-document.querySelector('#add-todo').addEventListener('click',function(){
-    document.querySelector('#input-todo').value = ''
-    todos.push(text)
-    // console.log(todos[todos.length-1])
-    render_todos(todos)
-})
+// rendering our todos in our div after filtering them
+const render_todos = function(todos,search_text){
+    // filtering todos    
+    const filtered = todos.filter((todo)=>{
+        return todo.toLowerCase().includes(search_text.toLowerCase())
+    })
 
-// removing all our todos from our screen and from our list
-document.querySelector('#remove-todos').addEventListener('click',function(){
-    document.querySelector('#all-content').innerHTML = ''
-    while(todos.length)
-        todos.pop()
-})
+    // between each two renders clear your div
+    document.getElementById('all-content').innerHTML = ''
 
-// rendering our todos in our div
-const render_todos = function(todos){
+    // rendering the filtered todos
+    filtered.forEach(ftodo => {
         const added = document.createElement('p')
-        added.textContent = todos[todos.length-1]
+        added.textContent = ftodo
         document.querySelector('#all-content').appendChild(added)
+    });
+    
 }
 
