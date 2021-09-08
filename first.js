@@ -15,23 +15,6 @@ const todo = [{
     completed:1
 }]
 
-const undone = todo.filter(function (item){
-    if (!item.completed){
-        return 1 ;
-    }
+document.querySelector('button').addEventListener('click',(e)=>{
+    e.target.textContent = 'You Clicked Me !!'
 })
-
-
-const undone_message = document.createElement('p')
-undone_message.textContent = `You still have got ${undone.length} Todos left.` 
-document.querySelector('body').appendChild(undone_message)
-
-const message = document.createElement('p')
-message.textContent = 'Which Are: ' 
-document.querySelector('body').appendChild(message)
-
-for (let  i = 0 ; i < undone.length ; i++){
-    const undone_message = document.createElement('p')
-    undone_message.textContent = undone[i].text  
-    document.querySelector('body').appendChild(undone_message)
-}
