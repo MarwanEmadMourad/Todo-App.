@@ -4,7 +4,7 @@ let todos = getSavedData()
 if (todos !== []){
     render_todos(todos)
 }
-
+debugger
 // the later added todo to our list
 const to_be_added = {
     text:'',
