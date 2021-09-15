@@ -4,9 +4,10 @@ let todos = getSavedData()
 if (todos !== []){
     render_todos(todos)
 }
-debugger
+// debugger
 // the later added todo to our list
 const to_be_added = {
+    id:'',
     text:'',
     completed:0
 }
@@ -14,6 +15,7 @@ const to_be_added = {
 // taking the text input from the input field
 document.querySelector('#input-todo').addEventListener('change',function(e){
     to_be_added.text = e.target.value 
+    to_be_added.id = uuidv4()
 })
  
 // appending the input text to our todos list when pressing add button
