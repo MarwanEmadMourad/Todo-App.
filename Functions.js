@@ -40,33 +40,51 @@ const create_todo_node = (todo) =>{
     // 2-) our todo text
     const paragrapgh = document.createElement('span')
     paragrapgh.textContent = todo.text 
+
     paragrapgh.setAttribute("style", "color: red;")
+
     // 3-) our remove button
-    const button = create_button('remove')
+    const r_button = create_button('remove')
+    // 4-) our edit button
+    const e_button = create_button('Edit')
 
     // add event listner to our created checkbox
     chk_bx.addEventListener('change',(e)=>{
         // if you checked the box change the color to green otherwise to red
         if(e.target.checked){
             paragrapgh.setAttribute("style", "color: green;")
-        }else
+            todo.completed = true
+            localStorage.setItem('todos',JSON.stringify(todos))
+        }else{
             paragrapgh.setAttribute("style", "color: red;")
+            todo.completed = false
+            localStorage.setItem('todos',JSON.stringify(todos))
+        }
+        display_left_todos(todos)
     })
 
     // adding an event listner to the remove button
     // when pressing removce we delete the todo from our todo-list
     //  and our local storage and from the DOM
-    button.addEventListener('click',(e)=> {
+    r_button.addEventListener('click',(e)=> {
         remove_todo_node(todo.id)
         // clearing the local storage and updating it with our new todo-list
         // after removing the wanted todo
         localStorage.setItem('todos',JSON.stringify(todos))
     })
 
+    // adding event listner to our edit button (forward to a certain link)
+    e_button.addEventListener('click',(e)=>{
+        // forwarding the click to hour html edit page with unique id as hash 
+        location.assign(`/edit.html#${todo.id}`)
+        todos = JSON.parse(localStorage.getItem('todos'))
+        render_todos(todos)
+    })
     // eventually appending all of our 3 created elements to our div
     new_div.appendChild(chk_bx)
     new_div.appendChild(paragrapgh)
-    new_div.appendChild(button)
+    new_div.appendChild(r_button)
+    new_div.appendChild(e_button)
 
     return new_div
 }
@@ -83,9 +101,26 @@ const clear_array = (array) =>{
     }
 }
 
+//displaying how many todos are left
+const display_left_todos = (todos) =>{
+    let not_completed = 0 
+    for (let i = 0 ; i < todos.length ; i++){
+        if (!todos[i].completed)
+            not_completed++;
+    }
+    // rendering how many todos are left
+    if (not_completed === 1) 
+        document.getElementById('todos_left').textContent = `You have got ${not_completed} todo left.`
+    else
+        document.getElementById('todos_left').textContent = `You have got ${not_completed} todos left.`
+}
+
 const render_todos = (todos)=>{
     // clearing our div with each time to render the whole list again
     clear_div('all-content')
+
+    //displaying how many todos are left
+    display_left_todos(todos)
 
     // rendering our todo list 
     for (let i = 0 ; i < todos.length ; i++){

@@ -1,4 +1,4 @@
-let todos = getSavedData()
+const todos = getSavedData()
 
 // checking if we have data stored in our local storage we render it
 if (todos !== []){
@@ -42,6 +42,9 @@ document.querySelector('#remove-todos').addEventListener('click',function(){
     clear_array(todos)
     // clearing our LocalStorage
     localStorage.clear()
+    
+    // rendering todos
+    render_todos(todos)
 })
  
 
