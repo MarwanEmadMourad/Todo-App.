@@ -77,6 +77,7 @@ const create_todo_node = (todo) =>{
     e_button.addEventListener('click',(e)=>{
         // forwarding the click to hour html edit page with unique id as hash 
         location.assign(`/edit.html#${todo.id}`)
+        // get the edited todos and re-rendering them
         todos = JSON.parse(localStorage.getItem('todos'))
         render_todos(todos)
     })
