@@ -30,7 +30,7 @@ const remove_todo_node = (id)=>{
 }
 
 // create todo node consists of a:
-// check box , todo text , remove button
+// check box , todo text , remove button , edit button
 // the three elements will belong to a separate div element
 const create_todo_node = (todo) =>{
     // our new div that will be attached to our root div
@@ -40,13 +40,19 @@ const create_todo_node = (todo) =>{
     // 2-) our todo text
     const paragrapgh = document.createElement('span')
     paragrapgh.textContent = todo.text 
-
-    paragrapgh.setAttribute("style", "color: red;")
-
+    if (!todo.completed)
+        paragrapgh.setAttribute("style", "color: red;")
+    else
+        paragrapgh.setAttribute("style", "color: green;")
+        
     // 3-) our remove button
     const r_button = create_button('remove')
     // 4-) our edit button
     const e_button = create_button('Edit')
+
+    // 5-) our created-at span
+
+    // 6-) our updated at span
 
     // add event listner to our created checkbox
     chk_bx.addEventListener('change',(e)=>{
@@ -65,11 +71,10 @@ const create_todo_node = (todo) =>{
 
     // adding an event listner to the remove button
     // when pressing removce we delete the todo from our todo-list
-    //  and our local storage and from the DOM
+    // and our local storage and from the DOM
     r_button.addEventListener('click',(e)=> {
         remove_todo_node(todo.id)
-        // clearing the local storage and updating it with our new todo-list
-        // after removing the wanted todo
+        // updating our local storage after removing the todo
         localStorage.setItem('todos',JSON.stringify(todos))
     })
 
