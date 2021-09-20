@@ -17,12 +17,14 @@ edit_area.value = wanted.text
 edit_area.addEventListener('input',(e)=>{  
     // updating our todo-list with the edited text
     wanted.text =  edit_area.value 
-    // updating local storage after editing our list    
-    localStorage.setItem('todos',JSON.stringify(todos))
 })
 
 // when pressing submit button go back to the home page
 document.getElementById("submit-edit").addEventListener('click',(e)=>{
+    // update the updated at property with the update time
+    wanted.updated_at = moment().valueOf()
+    // updating local storage after editing our list    
+    localStorage.setItem('todos',JSON.stringify(todos)) 
     // go back to the home page
     location.assign('/index.html')
 })

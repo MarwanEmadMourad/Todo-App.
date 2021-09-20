@@ -50,7 +50,10 @@ const create_todo_node = (todo) =>{
     // 4-) our edit button
     const e_button = create_button('Edit')
 
-    // 5-) our created-at span
+    // 5-) our created-at span with (day-month-year) format.
+    createdAt = document.createElement('span')
+    const now = moment(todo.created_at)
+    createdAt.textContent = `  Created at: ${now.format("dddd, MMM D YYYY, h:mm:ss a")}.`
 
     // 6-) our updated at span
 
@@ -91,7 +94,7 @@ const create_todo_node = (todo) =>{
     new_div.appendChild(paragrapgh)
     new_div.appendChild(r_button)
     new_div.appendChild(e_button)
-
+    new_div.appendChild(createdAt)
     return new_div
 }
 

@@ -9,7 +9,9 @@ if (todos !== []){
 const to_be_added = {
     id:'',
     text:'',
-    completed:0
+    completed:0,
+    created_at:-1,
+    updated_at:-1
 }
 
 // taking the text input from the input field
@@ -25,6 +27,8 @@ document.querySelector('#add-todo').addEventListener('click',function(){
     // adding only non empty todos
     if (to_be_added.text.length)
         {
+            // creating the time the note was created
+            to_be_added.created_at = moment().valueOf()
             // deep copying in our todo list
             todos.push(Object.assign({}, to_be_added))
             // adding our updated todo list in our local storage
@@ -42,11 +46,8 @@ document.querySelector('#remove-todos').addEventListener('click',function(){
     clear_array(todos)
     // clearing our LocalStorage
     localStorage.clear()
-    
     // rendering todos
     render_todos(todos)
 })
- 
 
 
- 
