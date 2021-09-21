@@ -64,9 +64,9 @@ const create_todo_node = (todo) =>{
     updatedAt = document.createElement('span')
     const up_moment = moment(todo.updated_at)
     if (todo.updated_at === -1)
-        updatedAt.textContent = " Updated at: N/A"
+        updatedAt.textContent = " Last edited: N/A"
     else
-        updatedAt.textContent = ` Updated at: ${up_moment.fromNow()}.`
+        updatedAt.textContent = ` Last edited: ${up_moment.fromNow()}.`
 
     // add event listner to our created checkbox
     chk_bx.addEventListener('change',(e)=>{
@@ -173,7 +173,7 @@ sort_droplist.addEventListener('change',(e)=>{
                 return -1 ;
         })
     }
-    else if (choice === "Recently updated."){
+    else if (choice === "Recently edited."){
         todos.sort((a,b)=>{
             if (a.updated_at < b.updated_at)
                 return 1 ;
