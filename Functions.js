@@ -31,7 +31,8 @@ const remove_todo_node = (id)=>{
 
 // create todo node consists of a:
 // check box , todo text , remove button , edit button
-// the three elements will belong to a separate div element
+// also created at and updated at timestamps
+// the 6 elements will belong to a separate div element
 const create_todo_node = (todo) =>{
     // our new div that will be attached to our root div
     const new_div = document.createElement('div') ;
@@ -40,11 +41,15 @@ const create_todo_node = (todo) =>{
     // 2-) our todo text
     const paragrapgh = document.createElement('span')
     paragrapgh.textContent = todo.text 
-    if (!todo.completed)
+    if (!todo.completed){
         paragrapgh.setAttribute("style", "color: red;")
-    else
+        chk_bx.checked = false 
+    }
+    else{
         paragrapgh.setAttribute("style", "color: green;")
-        
+        chk_bx.checked = true 
+    }
+         
     // 3-) our remove button
     const r_button = create_button('remove')
     // 4-) our edit button
@@ -52,10 +57,16 @@ const create_todo_node = (todo) =>{
 
     // 5-) our created-at span with (day-month-year) format.
     createdAt = document.createElement('span')
-    const now = moment(todo.created_at)
-    createdAt.textContent = `  Created at: ${now.format("dddd, MMM D YYYY, h:mm:ss a")}.`
+    const cr_moment = moment(todo.created_at)
+    createdAt.textContent = `  Created at: ${cr_moment.fromNow()}.   `
 
-    // 6-) our updated at span
+    // 6-) our updated-at span
+    updatedAt = document.createElement('span')
+    const up_moment = moment(todo.updated_at)
+    if (todo.updated_at === -1)
+        updatedAt.textContent = " Updated at: N/A"
+    else
+        updatedAt.textContent = ` Updated at: ${up_moment.fromNow()}.`
 
     // add event listner to our created checkbox
     chk_bx.addEventListener('change',(e)=>{
@@ -73,7 +84,7 @@ const create_todo_node = (todo) =>{
     })
 
     // adding an event listner to the remove button
-    // when pressing removce we delete the todo from our todo-list
+    // when pressing remove we delete the todo from our todo-list
     // and our local storage and from the DOM
     r_button.addEventListener('click',(e)=> {
         remove_todo_node(todo.id)
@@ -95,6 +106,8 @@ const create_todo_node = (todo) =>{
     new_div.appendChild(r_button)
     new_div.appendChild(e_button)
     new_div.appendChild(createdAt)
+    new_div.appendChild(updatedAt)
+
     return new_div
 }
 
@@ -147,6 +160,31 @@ const getSavedData = ()=>{
     }
 }
 
+const sort_droplist = document.getElementById("sort-by")  
+sort_droplist.addEventListener('change',(e)=>{
+    const choice = sort_droplist.options[sort_droplist.selectedIndex].text;
+    // most recent higher value
+    // sorting todos based on the chosen option
+    if (choice === "Recently created."){
+        todos.sort((a,b)=>{
+            if (a.created_at < b.created_at)
+                return 1 ;
+            if (a.created_at > b.created_at)
+                return -1 ;
+        })
+    }
+    else if (choice === "Recently updated."){
+        todos.sort((a,b)=>{
+            if (a.updated_at < b.updated_at)
+                return 1 ;
+            if (a.updated_at > b.updated_at)
+                return -1 ;
+        })
+    }
+    // saving our sorted todos in our local storage
+    localStorage.setItem('todos',JSON.stringify(todos))
+    render_todos(todos)
+})
 
 // //create new label with a certain text and a certain attribute
 // const create_new_label = (text ='',key_attribute ='',value_attribute='') =>{
